@@ -347,5 +347,91 @@ speechSynthesis.speak(msg);
 });
 </script>
 <script src="school-news.js" defer></script>
+<script>
+(function () {
+  const tr = {
+    ne: {
+      about:'गुम्बा', school:'विद्यालय', rinpoche:'रिन्पोछेज्यू', news:'समाचार', support:'सहयोग', donate:'दान', contact:'सम्पर्क',
+      title:'दान तथा सहयोग', intro:'कदम्पा गुम्बाको निःशुल्क शिक्षा र सेवाकार्यमा आर्थिक सहयोग वा आवश्यक सामग्री प्रदान गर्न सक्नुहुन्छ।',
+      bankTitle:'नेपालभित्र बैंकमार्फत सहयोग', accountLabel:'खातावालाको नाम', bankPending:'खाता नम्बर अन्तिम पुष्टि भएपछि यहाँ थपिनेछ।',
+      usesTitle:'सहयोगका क्षेत्र', uses:'निःशुल्क शिक्षा, भोजन, आवास र वस्त्र, स्वास्थ्य सेवा तथा बौद्ध धर्म र गुम्बाको विकास।',
+      trustTitle:'रसिद र पारदर्शिता', trust:'बैंकमा रकम प्राप्त भएको पुष्टि भएपछि आधिकारिक रसिद इमेल वा WhatsApp मार्फत पठाउन सकिन्छ। वार्षिक आर्थिक प्रतिवेदन अनुरोधमा उपलब्ध गराइन्छ।',
+      emailLabel:'सम्पर्क इमेल', notice:'विदेशबाट दान स्वीकार गर्ने बैंक र कानुनी प्रक्रिया अझै पुष्टि गर्न बाँकी छ। अहिले अन्तर्राष्ट्रिय ट्रान्सफरका लागि निर्देशन प्रकाशित गरिएको छैन।',
+      registration:'कदम्पा गुम्बा बौद्ध दर्शन प्रवर्द्धन तथा गुम्बा विकास समितिमा दर्ता भएको धार्मिक संस्था हो।'
+    },
+    en: {
+      about:'About', school:'School', rinpoche:'Rinpoche', news:'News', support:'Support', donate:'Donate', contact:'Contact',
+      title:'Donations & Support', intro:'Support Kadampa Gumba’s free education and community services through monetary or in-kind donations.',
+      bankTitle:'Bank support within Nepal', accountLabel:'Account name', bankPending:'The account number will be added after final verification.',
+      usesTitle:'What donations support', uses:'Free education, meals, accommodation and clothing, healthcare, Buddhist education and monastery development.',
+      trustTitle:'Receipts & transparency', trust:'An official receipt can be sent by email or WhatsApp after funds are confirmed received. Annual financial reports are available upon request.',
+      emailLabel:'Contact email', notice:'Bank arrangements and legal requirements for foreign donations are still being verified. No international transfer instructions are published yet.',
+      registration:'Kadampa Gumba is registered with Nepal’s Buddhist Philosophy Promotion and Monastery Development Committee.'
+    },
+    zh: {
+      about:'寺院介紹', school:'學校', rinpoche:'仁波切', news:'最新消息', support:'支持我們', donate:'捐款', contact:'聯絡',
+      title:'捐款與支持', intro:'歡迎透過捐款或捐贈所需物資，支持 Kadampa Gumba 的免費教育與公益服務。',
+      bankTitle:'尼泊爾國內銀行捐款', accountLabel:'帳戶名稱', bankPending:'銀行帳號待最後核對後公布。',
+      usesTitle:'善款用途', uses:'免費教育、餐食、住宿與衣物、醫療照護、佛法教育及寺院發展。',
+      trustTitle:'收據與財務透明', trust:'確認銀行入帳後，可透過電子郵件或 WhatsApp 寄送正式收據。年度財務報告可依申請提供。',
+      emailLabel:'聯絡信箱', notice:'海外捐款的銀行安排與法規程序仍待確認，目前不提供國際匯款指示。',
+      registration:'Kadampa Gumba 已向尼泊爾佛教哲學推廣與寺院發展委員會辦理登記。'
+    },
+    bo: {
+      about:'དགོན་པ།', school:'སློབ་གྲྭ།', rinpoche:'རིན་པོ་ཆེ།', news:'གསར་འགྱུར།', support:'རོགས་རམ།', donate:'ཞལ་འདེབས།', contact:'འབྲེལ་གཏུག',
+      title:'ཞལ་འདེབས་དང་རོགས་རམ།', intro:'བཀའ་གདམས་དགོན་པའི་རིན་མེད་སློབ་གསོ་དང་ཞབས་ཞུའི་ཆེད་དུ་དངུལ་དང་དངོས་ཟོག་གིས་རོགས་རམ་གནང་ཆོག',
+      bankTitle:'བལ་ཡུལ་ནང་གི་དངུལ་ཁང་བརྒྱུད་རོགས་རམ།', accountLabel:'རྩིས་ཁྲའི་མིང་།', bankPending:'རྩིས་ཁྲའི་ཨང་གྲངས་ཞིབ་བཤེར་རྗེས་སུ་འཇུག་རྒྱུ།',
+      usesTitle:'རོགས་རམ་སྤྱོད་ས།', uses:'སློབ་གསོ། ཞལ་ལག གནས་ཁང་དང་གོས། སྨན་བཅོས། ནང་ཆོས་སློབ་གསོ་དང་དགོན་པའི་གོང་འཕེལ།',
+      trustTitle:'འབྱོར་འཛིན་དང་གསལ་བཤད།', trust:'དངུལ་འབྱོར་བ་ངེས་གཏན་བྱས་རྗེས་གློག་འཕྲིན་ནམ་ WhatsApp བརྒྱུད་འབྱོར་འཛིན་གཏོང་ཆོག ལོ་རེའི་དངུལ་རྩིས་སྙན་ཐོ་རེ་ཞུ་བྱས་ན་སྤྲོད་ཆོག',
+      emailLabel:'འབྲེལ་གཏུག་གློག་འཕྲིན།', notice:'ཕྱི་རྒྱལ་ནས་ཞལ་འདེབས་ལེན་པའི་དངུལ་ཁང་དང་ཁྲིམས་ཀྱི་ཆ་རྐྱེན་ཞིབ་བཤེར་བྱེད་བཞིན་ཡོད།',
+      registration:'བཀའ་གདམས་དགོན་པ་ནི་བལ་ཡུལ་གྱི་ནང་ཆོས་དང་དགོན་པའི་འཕེལ་རྒྱས་ལས་ཁུངས་སུ་ཐོ་བཀོད་བྱས་ཡོད།'
+    }
+  };
+  const style = document.createElement('style');
+  style.textContent = '.kg-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;padding:8px 12px 12px;background:#fffdf8;border-top:1px solid #eee2d4}.kg-nav a{color:#542c29;text-decoration:none;border:1px solid #e1d1b8;border-radius:18px;padding:5px 11px;font-size:14px;background:white}.kg-nav a:hover{background:#f7ecdb}#about,#school,#support,#contact,#donate{scroll-margin-top:170px}#donate .card p{margin:10px 0}';
+  document.head.appendChild(style);
+  const nav = document.createElement('nav');
+  nav.className = 'kg-nav';
+  nav.setAttribute('aria-label', 'Website navigation');
+  [['about','about'],['school','school'],['rinpoche','rinpoche'],['news','news'],['support','support'],['donate','donate'],['contact','contact']].forEach(function(item){
+    if (item[0] === 'donate' || document.getElementById(item[0])) {
+      const a = document.createElement('a');
+      a.href = '#' + item[0];
+      a.dataset.kg = item[1];
+      nav.appendChild(a);
+    }
+  });
+  const header = document.querySelector('header');
+  if (header) header.insertAdjacentElement('afterend', nav);
+  const donation = document.createElement('section');
+  donation.id = 'donate';
+  donation.className = 'section';
+  donation.innerHTML = '<h2 data-kg="title"></h2>' +
+    '<p class="highlight" data-kg="intro"></p>' +
+    '<div class="grid">' +
+    '<article class="card"><h3 data-kg="bankTitle"></h3><p><strong>Kumari Bank Limited</strong><br>Boudha, Kathmandu, Nepal</p><p><span data-kg="accountLabel"></span>: <strong>Kadampa Gumba</strong></p><p data-kg="bankPending"></p></article>' +
+    '<article class="card"><h3 data-kg="usesTitle"></h3><p data-kg="uses"></p></article>' +
+    '<article class="card"><h3 data-kg="trustTitle"></h3><p data-kg="trust"></p><p><span data-kg="emailLabel"></span>: <a href="mailto:kadampabuddhistmonastery@gmail.com">kadampabuddhistmonastery@gmail.com</a></p></article>' +
+    '</div><p data-kg="notice"></p>';
+  const main = document.querySelector('main');
+  if (main) main.appendChild(donation);
+  const about = document.getElementById('about');
+  if (about) {
+    const p = document.createElement('p');
+    p.dataset.kg = 'registration';
+    about.appendChild(p);
+  }
+  function translateExtra(code) {
+    const t = tr[code] || tr.en;
+    document.querySelectorAll('[data-kg]').forEach(function(el){
+      el.textContent = t[el.dataset.kg] || '';
+    });
+  }
+  document.querySelectorAll('[data-lang]').forEach(function(btn){
+    btn.addEventListener('click', function(){ translateExtra(btn.dataset.lang); });
+  });
+  translateExtra(typeof current === 'string' ? current : 'en');
+})();
+</script>
 </body>
 </html>
