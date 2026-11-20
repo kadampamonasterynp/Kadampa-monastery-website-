@@ -433,5 +433,72 @@ speechSynthesis.speak(msg);
   translateExtra(typeof current === 'string' ? current : 'en');
 })();
 </script>
+  <!-- Kadampa Gumba: separate Tsok photo-and-text story. Paste immediately BEFORE </body>. -->
+<script>
+(function () {
+  const photoFile = 'C5CA14B1-8059-402E-A6B6-39405971FD5E.png';
+  const tibetanOriginal = 'ཚོགས་མཆོད་ཀྱི་ཕན་ཡོན་གཙོ་བོ་ནི་དམ་ཚིག་ཉམས་ཆག་བསྐང་བ། སྒྲུབ་པའི་བར་ཆད་སེལ་བ། བསོད་ནམས་དང་ཡེ་ཤེས་ཀྱི་ཚོགས་གཉིས་བསག་པ། མཐར་བདེ་སྟོང་ཟུང་འཇུག་གི་ཡེ་ཤེས་ལ་གོམས་པ་བཅས་ཡིན། དེ་ལྟར་ན། ཚེས་བཅུ་དང་ཉེར་ལྔ་ལ་ཚོགས་མཆོད་འབུལ་བའི་གནད་ནི་ཚེས་གྲངས་ཙམ་ལ་མི་གནས་པར། རྒྱུད་ཀྱི་བཀའ་དང་། དམ་ཚིག་གི་བསླབ་བྱ། ཐབས་ཤེས་ཟུང་འཇུག་གི་ཉམས་ལེན་གསུམ་མཉམ་དུ་འདུས་པ་དེ་ཡིན།';
+  const titles = {
+    ne: 'त्सोग अर्पणको महत्त्व',
+    en: 'The Meaning and Benefits of Tsok Offering',
+    zh: '薈供的意義與功德',
+    bo: 'ཚོགས་མཆོད་ཀྱི་ཕན་ཡོན།'
+  };
+  const introductions = {
+    ne: 'त्सोग अर्पणसम्बन्धी मूल तिब्बती पाठ',
+    en: 'Original Tibetan teaching on Tsok Offering',
+    zh: '關於薈供的藏文原文',
+    bo: 'ཚོགས་མཆོད་ཀྱི་གསུང་ཡིག'
+  };
+  const summaries = {
+    ne: 'त्सोग अर्पणले क्षतिग्रस्त समया प्रतिबद्धताको पूर्ति, साधनाका अवरोध हटाउने अभ्यास, पुण्य र प्रज्ञाको सञ्चय तथा आनन्द र शून्यताको एकत्वको ज्ञानमा अभ्यस्त हुन सहयोग गर्ने बताइएको छ।',
+    en: 'Tsok Offering is taught as a practice of restoring samaya commitments, clearing obstacles, gathering merit and wisdom, and cultivating insight into the union of bliss and emptiness.',
+    zh: '薈供的修持意義包括修復誓言、消除修行障礙、積聚福德與智慧二資糧，並熟習樂空雙運的智慧。',
+    bo: ''
+  };
+  const style = document.createElement('style');
+  style.textContent = `
+    #kadampa-tsok-story {max-width:1100px;margin:24px auto 36px;padding:24px 18px;scroll-margin-top:160px}
+    #kadampa-tsok-story .tsok-card {display:grid;grid-template-columns:minmax(220px,0.9fr) minmax(0,1.25fr);gap:24px;align-items:start;background:#fffdf8;border:1px solid #eadbc7;border-radius:18px;padding:20px;box-shadow:0 6px 24px rgba(75,32,24,.07)}
+    #kadampa-tsok-story .tsok-photo {display:block;width:100%;height:auto;border-radius:12px;object-fit:cover}
+    #kadampa-tsok-story h2 {margin:0 0 9px;color:#542c29;font-size:clamp(22px,3vw,30px)}
+    #kadampa-tsok-story .tsok-intro {font-weight:600;color:#8b632f;margin:0 0 12px}
+    #kadampa-tsok-story .tsok-tibetan {font-family:'Kailasa','Noto Serif Tibetan','Microsoft Himalaya',serif;font-size:clamp(19px,2.4vw,25px);line-height:1.85;overflow-wrap:anywhere;color:#3f2930;margin:0 0 14px}
+    #kadampa-tsok-story .tsok-summary {font-size:15px;line-height:1.8;margin:0;color:#56433b}
+    @media(max-width:700px){#kadampa-tsok-story .tsok-card{grid-template-columns:1fr;padding:14px;gap:16px}}
+  `;
+  document.head.appendChild(style);
+  const section = document.createElement('section');
+  section.id = 'kadampa-tsok-story';
+  section.setAttribute('aria-label', 'Tsok Offering article');
+  section.innerHTML = `
+    <article class="tsok-card">
+      <div><img class="tsok-photo" src="${photoFile}" alt="Buddhist teacher seated at the monastery" loading="lazy"></div>
+      <div>
+        <h2 class="tsok-title"></h2>
+        <p class="tsok-intro"></p>
+        <p class="tsok-tibetan" lang="bo"></p>
+        <p class="tsok-summary"></p>
+      </div>
+    </article>`;
+  const main = document.querySelector('main');
+  if (!main) return;
+  const donate = document.getElementById('donate');
+  if (donate && donate.parentElement === main) main.insertBefore(section, donate);
+  else main.appendChild(section);
+  section.querySelector('.tsok-tibetan').textContent = tibetanOriginal;
+  function selectLanguage(code) {
+    const lang = titles[code] ? code : 'en';
+    section.querySelector('.tsok-title').textContent = titles[lang];
+    section.querySelector('.tsok-intro').textContent = introductions[lang];
+    section.querySelector('.tsok-summary').textContent = summaries[lang];
+  }
+  document.querySelectorAll('[data-lang]').forEach(function(btn) {
+    btn.addEventListener('click', function() { selectLanguage(btn.dataset.lang); });
+  });
+  const selected = document.querySelector('[data-lang].active');
+  selectLanguage(selected ? selected.dataset.lang : (typeof current !== 'undefined' ? current : 'en'));
+})();
+</script>
 </body>
 </html>
