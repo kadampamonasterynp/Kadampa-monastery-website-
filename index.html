@@ -500,5 +500,45 @@ speechSynthesis.speak(msg);
   selectLanguage(selected ? selected.dataset.lang : (typeof current !== 'undefined' ? current : 'en'));
 })();
 </script>
+  <!-- Fix: display the full Tsok article in the selected website language. Paste BEFORE </body>, AFTER the existing Tsok script. -->
+<script>
+(function () {
+  const article = document.getElementById('kadampa-tsok-story');
+  if (!article) return;
+  const paragraph = article.querySelector('.tsok-tibetan');
+  if (!paragraph) return;
+  const originalTibetan = paragraph.textContent;
+  const fullText = {
+    ne: 'त्सोग अर्पणका मुख्य लाभहरूमा क्षति पुगेका वा कमजोर भएका समया (तान्त्रिक प्रतिबद्धता) को पुनःपूर्ति गर्नु, साधनाका बाधा हटाउनु, पुण्य र प्रज्ञाका दुई सञ्चय सङ्कलन गर्नु तथा अन्ततः आनन्द र शून्यताको अविभाज्य एकताको प्रज्ञामा अभ्यस्त हुनु पर्दछन्। त्यसैले दशौँ र पच्चीसौँ तिथिमा त्सोग अर्पण गर्नुको सार केवल ती मितिहरूमा सीमित छैन; तन्त्रका उपदेश, समयासम्बन्धी आचरणका शिक्षा र उपाय तथा प्रज्ञाको संयुक्त अभ्यास—यी तीन पक्षलाई एकसाथ समेट्नु नै यसको वास्तविक महत्त्व हो।',
+    en: 'The principal benefits of Tsok offering are to restore impaired or broken samaya commitments, remove obstacles to spiritual practice, accumulate the two collections of merit and wisdom, and ultimately become familiar with the wisdom of the union of bliss and emptiness. Therefore, the significance of offering Tsok on the tenth and twenty-fifth lunar days lies not merely in the dates themselves, but in bringing together three elements: the instructions of the tantras, the training associated with samaya commitments, and the practice of uniting method and wisdom.',
+    zh: '薈供的主要利益，是修復受損或破損的三昧耶誓言、遣除修行障礙、積聚福德與智慧二資糧，並最終熟習樂空雙運的智慧。因此，在藏曆初十與二十五日舉行薈供，其重點並不僅在於日期本身，而是將密續的教導、三昧耶戒的修學，以及方便與智慧雙運的實修三者融為一體。',
+    bo: originalTibetan
+  };
+  const headings = {
+    ne: 'त्सोग अर्पणको पूरा नेपाली अर्थ',
+    en: 'Full English translation of the Tsok teaching',
+    zh: '薈供教義全文中文翻譯',
+    bo: 'ཚོགས་མཆོད་ཀྱི་གསུང་ཡིག'
+  };
+  function updateArticle(code) {
+    const lang = Object.prototype.hasOwnProperty.call(fullText, code) ? code : 'en';
+    paragraph.textContent = fullText[lang];
+    paragraph.setAttribute('lang', lang === 'zh' ? 'zh-Hant' : lang);
+    paragraph.style.fontFamily = lang === 'bo' ? "'Kailasa','Noto Serif Tibetan',serif" : 'system-ui,-apple-system,sans-serif';
+    paragraph.style.fontSize = lang === 'bo' ? '22px' : '17px';
+    paragraph.style.lineHeight = lang === 'bo' ? '1.9' : '1.8';
+    const heading = article.querySelector('.tsok-intro');
+    if (heading) heading.textContent = headings[lang];
+    const duplicateSummary = article.querySelector('.tsok-summary');
+    if (duplicateSummary) duplicateSummary.style.display = 'none';
+  }
+  document.querySelectorAll('[data-lang]').forEach(function (button) {
+    button.addEventListener('click', function () { updateArticle(button.dataset.lang); });
+  });
+  const selected = document.querySelector('[data-lang].active');
+  updateArticle(selected ? selected.dataset.lang : (typeof current !== 'undefined' ? current : 'en'));
+})();
+</script>
+
 </body>
 </html>
